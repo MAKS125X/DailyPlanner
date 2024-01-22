@@ -1,7 +1,6 @@
 package com.example.dailyplaner.presentation.screens.to_do_info
 
 sealed class ToDoInfoEvent {
-
     data class UpdateTimeStart(val hour: Int, val minute: Int) : ToDoInfoEvent()
     data class UpdateTimeFinish(val hour: Int, val minute: Int) : ToDoInfoEvent()
     data class UpdateDate(val millis: Long) : ToDoInfoEvent()

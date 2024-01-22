@@ -8,4 +8,3 @@ data class ToDoShort(
     @ColumnInfo(name = "date_finish") val dateFinish: Long,
     val name: String,
 )
-

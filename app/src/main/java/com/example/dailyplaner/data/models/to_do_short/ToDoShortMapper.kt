@@ -25,4 +25,3 @@ object ToDoShortMapper : DtoMapper<ToDoShort, ToDoShortView> {
         return dateFormat.format(calendar.timeInMillis)
     }
 }
-

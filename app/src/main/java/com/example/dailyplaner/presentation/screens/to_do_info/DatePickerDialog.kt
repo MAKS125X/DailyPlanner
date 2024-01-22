@@ -19,15 +19,19 @@ fun DatePickerDialogImpl(
 ) {
     val state = rememberDatePickerState(initialTimeMillis)
 
-    DatePickerDialog(onDismissRequest = onDismiss, confirmButton = {
-        TextButton(onClick = { onConfirm(state.selectedDateMillis ?: initialTimeMillis) }) {
-            Text(text = stringResource(id = R.string.accept_button))
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = { onConfirm(state.selectedDateMillis ?: initialTimeMillis) }) {
+                Text(text = stringResource(id = R.string.accept_button))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { onDismiss() }) {
+                Text(text = stringResource(id = R.string.cancel_button))
+            }
         }
-    }, dismissButton = {
-        TextButton(onClick = { onDismiss() }) {
-            Text(text = stringResource(id = R.string.cancel_button))
-        }
-    }) {
+    ) {
         DatePicker(state = state)
     }
 }

@@ -54,14 +54,14 @@ fun ToDoInfoScreen(
     onToDoEvent: (ToDoInfoEvent) -> Unit,
     navigateUp: () -> Unit,
 ) {
-
     val dateFormatter = SimpleDateFormat("EEEE, dd.MM.yyyy", Locale.getDefault())
     val context = LocalContext.current
     val colorScheme = MaterialTheme.colorScheme
     when (val result = uiState.addResult) {
         is ToDoInfoState.AddingResult.DatabaseError -> {
             LaunchedEffect(uiState.addResult) {
-                Toast.makeText(context, result.errorMessage.asString(context), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, result.errorMessage.asString(context), Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
@@ -97,7 +97,8 @@ fun ToDoInfoScreen(
             onHideRequest = { onToDoEvent(ToDoInfoEvent.CloseTimeStartPicked) },
             onConfirmRequest = { hour, minute ->
                 onToDoEvent(ToDoInfoEvent.UpdateTimeStart(hour, minute))
-            })
+            }
+        )
     }
 
     if (uiState.showFinishTimePicker) {
@@ -269,7 +270,10 @@ fun ToDoInfoScreen(
                 modifier = Modifier.width(textFieldWidth)
             ) {
                 Row(modifier = Modifier.weight(0.25f)) { }
-                Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.Center) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Button(
                         onClick = { onToDoEvent(ToDoInfoEvent.SaveToDo) },
                         colors = ButtonDefaults.buttonColors(
@@ -313,19 +317,19 @@ fun ToDoInfoStateDayPreview() {
     DailyPlanerTheme {
         ToDoInfoScreen(
             uiState = ToDoInfoState(
-                currentToDoId = -1,
+                currentToDoId = 4,
                 startHour = 0,
                 startMinute = 0,
                 finishHour = 0,
                 finishMinute = 0,
-                nameText = "Текст aaaa Текст aaaaaaaa Текст aaa aaaaaaaaaa",
-                descriptionText = "aaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaa\n" +
-                        "aa aaaaaa aaaaaa aaaaaaaaa aaaa  aaa aaaaaa aaaaaaaaaaaaaaa" +
-                        "aaaaaaaaaaaa aaaaaaaaaaaa aaaaaaaaaaa aaaa aaaaaa aaaaaa" +
-                        "aaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaaa aaaaaaa aaaaaaa" +
-                        "aaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaa aaaaaaaaaaaaaaaa" +
-                        "aaaaaaaaaa aaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaa" +
-                        "aaaaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaaaaaaa aaaaaaaaaa"
+                nameText = "Название Название Название Название Название Название Название",
+                descriptionText = "Текст Текст Текст Текст\n" +
+                        "Текст Текст Текст Текст Текст Текст Текст Текст " +
+                        "Текст Текст Текст Текст Текст Текст Текст Текст " +
+                        "Текст Текст Текст Текст Текст Текст Текст Текст " +
+                        "Текст Текст Текст Текст Текст Текст Текст Текст " +
+                        "Текст Текст Текст Текст Текст Текст Текст Текст " +
+                        "Текст Текст Текст Текст Текст Текст Текст Текст "
             ),
             {},
             {}
