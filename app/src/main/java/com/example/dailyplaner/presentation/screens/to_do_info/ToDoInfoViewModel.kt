@@ -7,12 +7,14 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.dailyplaner.R
 import com.example.dailyplaner.data.ToDoRepository
 import com.example.dailyplaner.data.exceptions.EmptyToDoNameException
 import com.example.dailyplaner.data.exceptions.InvalidToDoDateRangeException
 import com.example.dailyplaner.data.models.to_do_long.ToDoLongView
 import com.example.dailyplaner.di.DailyPlannerApplication
 import com.example.dailyplaner.presentation.navigation.Destinations
+import com.example.dailyplaner.presentation.ui.theme.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -174,9 +176,14 @@ class ToDoInfoViewModel(
                 _uiState.update {
                     it.copy(
                         showNameTextError = true,
-                        nameTextError = e.message ?: "Некорректные данные",
+                        nameTextError =
+                        UiText.StringResource(
+                            R.string.to_do_must_have_name
+                        ),
                         addResult = ToDoInfoState.AddingResult.ValidationError(
-                            e.message ?: "Некорректные данные"
+                            UiText.StringResource(
+                                R.string.to_do_must_have_name
+                            )
                         )
                     )
                 }
@@ -184,21 +191,23 @@ class ToDoInfoViewModel(
                 _uiState.update {
                     it.copy(
                         showStartMinuteError = true,
-                        startMinuteError = e.message ?: "Некорректные данные",
+                        startMinuteError = UiText.StringResource(R.string.to_do_should_finish_after_starting),
 
                         showFinishMinuteError = true,
-                        finishMinuteError = e.message ?: "Некорректные данные",
+                        finishMinuteError = UiText.StringResource(R.string.to_do_should_finish_after_starting),
 
                         addResult = ToDoInfoState.AddingResult.ValidationError(
-                            e.message ?: "Некорректные данные"
+                            UiText.StringResource(R.string.to_do_should_finish_after_starting),
                         )
                     )
                 }
             } catch (e: Exception) {
+                val message = e.message
                 _uiState.update {
                     it.copy(
                         addResult = ToDoInfoState.AddingResult.DatabaseError(
-                            e.message ?: "Ошибка добавления в базы данных"
+                            if (message != null) UiText.DynamicString(message)
+                            else UiText.StringResource(R.string.database_error)
                         )
                     )
                 }
@@ -216,7 +225,7 @@ class ToDoInfoViewModel(
                         0 -> _uiState.update {
                             it.copy(
                                 deleteResult = ToDoInfoState.DeleteResult.DatabaseError(
-                                    "Данное дело уже удалено"
+                                    UiText.StringResource(R.string.to_do_exist)
                                 )
                             )
                         }
@@ -228,7 +237,7 @@ class ToDoInfoViewModel(
                         else -> _uiState.update {
                             it.copy(
                                 deleteResult = ToDoInfoState.DeleteResult.DatabaseError(
-                                    "Внутренняя ошибка, откройте дело снова"
+                                    UiText.StringResource(R.string.internal_error)
                                 )
                             )
                         }
@@ -237,7 +246,7 @@ class ToDoInfoViewModel(
                     _uiState.update {
                         it.copy(
                             deleteResult = ToDoInfoState.DeleteResult.DatabaseError(
-                                e.message ?: "Ошибка добавления в базы данных"
+                                UiText.StringResource(R.string.database_error)
                             )
                         )
                     }
@@ -251,7 +260,7 @@ class ToDoInfoViewModel(
         _uiState.update {
             it.copy(
                 showNameTextError = false,
-                nameTextError = "",
+                nameTextError = UiText.DynamicString(""),
                 addResult = ToDoInfoState.AddingResult.Nothing,
             )
         }
@@ -261,10 +270,10 @@ class ToDoInfoViewModel(
         _uiState.update {
             it.copy(
                 showStartMinuteError = false,
-                startMinuteError = "",
+                startMinuteError = UiText.DynamicString(""),
 
                 showFinishMinuteError = false,
-                finishMinuteError = "",
+                finishMinuteError = UiText.DynamicString(""),
                 addResult = ToDoInfoState.AddingResult.Nothing,
             )
         }

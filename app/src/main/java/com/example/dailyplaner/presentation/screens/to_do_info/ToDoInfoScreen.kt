@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_3_XL
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,7 +59,7 @@ fun ToDoInfoScreen(
     when (val result = uiState.addResult) {
         is ToDoInfoState.AddingResult.DatabaseError -> {
             LaunchedEffect(uiState.addResult) {
-                Toast.makeText(context, result.errorMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, result.errorMessage.asString(context), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -73,7 +74,8 @@ fun ToDoInfoScreen(
     when (val result = uiState.deleteResult) {
         is ToDoInfoState.DeleteResult.DatabaseError -> {
             LaunchedEffect(uiState.addResult) {
-                Toast.makeText(context, result.errorMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, result.errorMessage.asString(context), Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
@@ -143,12 +145,15 @@ fun ToDoInfoScreen(
                     colors = IconButtonDefaults
                         .iconButtonColors(contentColor = colorScheme.primary)
                 ) {
-                    Icon(imageVector = Icons.Outlined.Close, contentDescription = "Закрыть")
+                    Icon(
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = stringResource(R.string.close_content_description)
+                    )
                 }
             }
             if (uiState.currentToDoId == -1) {
                 Text(
-                    text = "Добавьте новое дело: ",
+                    text = stringResource(R.string.add_to_do),
                     style = MaterialTheme.typography.headlineLarge
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -156,11 +161,12 @@ fun ToDoInfoScreen(
             OutlinedTextField(
                 value = uiState.nameText,
                 onValueChange = { onToDoEvent(ToDoInfoEvent.ChangeName(it)) },
-                label = { Text("Название") },
-                supportingText = { Text(text = uiState.nameTextError) },
+                label = { Text(stringResource(R.string.to_do_name)) },
+                supportingText = { Text(text = uiState.nameTextError.asString()) },
                 maxLines = 2,
                 isError = uiState.showNameTextError,
                 shape = RoundedCornerShape(16.dp),
+
                 colors = outlinedTextFieldColors(),
                 modifier = Modifier.width(280.dp),
             )
@@ -168,18 +174,25 @@ fun ToDoInfoScreen(
             OutlinedTextField(
                 value = dateFormatter.format(Date(uiState.dateInMillis)) ?: "",
                 onValueChange = {},
-                label = { Text("Дата") },
+                label = { Text(stringResource(R.string.to_do_date)) },
                 readOnly = true,
                 shape = RoundedCornerShape(16.dp),
                 trailingIcon = {
-                    IconButton(onClick = { onToDoEvent(ToDoInfoEvent.OpenDatePicker) }) {
+                    IconButton(
+                        onClick = { onToDoEvent(ToDoInfoEvent.OpenDatePicker) },
+                        colors = if (uiState.showDateInMillisError)
+                            IconButtonDefaults.iconButtonColors(
+                                contentColor = colorScheme.error
+                            )
+                        else IconButtonDefaults.iconButtonColors()
+                    ) {
                         Icon(
                             imageVector = Icons.Outlined.DateRange,
-                            contentDescription = "Дата",
+                            contentDescription = stringResource(R.string.change_date_button),
                         )
                     }
                 },
-                supportingText = { Text(text = uiState.dateInMillisError) },
+                supportingText = { Text(text = uiState.dateInMillisError.asString()) },
                 isError = uiState.showDateInMillisError,
                 colors = outlinedTextFieldColors()
             )
@@ -187,43 +200,53 @@ fun ToDoInfoScreen(
             OutlinedTextField(
                 value = formatTime(uiState.startHour, uiState.startMinute),
                 onValueChange = {},
-                label = { Text("Время начала") },
+                label = { Text(stringResource(R.string.start_time)) },
                 readOnly = true,
                 shape = RoundedCornerShape(16.dp),
                 trailingIcon = {
                     IconButton(
                         onClick = { onToDoEvent(ToDoInfoEvent.OpenStartTimePicker) },
-//                        colors = IconButtonDefaults.iconButtonColors(contentColor = colorScheme.primary)
+                        colors = if (uiState.showStartMinuteError)
+                            IconButtonDefaults.iconButtonColors(
+                                contentColor = colorScheme.error
+                            )
+                        else IconButtonDefaults.iconButtonColors()
                     ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.clock),
-                            contentDescription = "Время начала дела",
+                            contentDescription = stringResource(R.string.change_start_time),
                             modifier = Modifier.fillMaxSize(0.6f)
                         )
                     }
                 },
-                supportingText = { Text(text = uiState.startMinuteError) },
+                supportingText = { Text(text = uiState.startMinuteError.asString()) },
                 isError = uiState.showStartMinuteError,
-
                 colors = outlinedTextFieldColors()
             )
             Spacer(modifier = Modifier.height(verticalTextFieldSpacerHeight))
             OutlinedTextField(
                 value = formatTime(uiState.finishHour, uiState.finishMinute),
                 onValueChange = {},
-                label = { Text("Время конца") },
+                label = { Text(stringResource(R.string.finish_time)) },
                 readOnly = true,
                 shape = RoundedCornerShape(16.dp),
                 trailingIcon = {
-                    IconButton(onClick = { onToDoEvent(ToDoInfoEvent.OpenFinishTimePicker) }) {
+                    IconButton(
+                        onClick = { onToDoEvent(ToDoInfoEvent.OpenFinishTimePicker) },
+                        colors = if (uiState.showFinishMinuteError)
+                            IconButtonDefaults.iconButtonColors(
+                                contentColor = colorScheme.error
+                            )
+                        else IconButtonDefaults.iconButtonColors()
+                    ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.clock),
-                            contentDescription = "Время начала дела",
+                            contentDescription = stringResource(R.string.change_finish_time),
                             modifier = Modifier.fillMaxSize(0.6f)
                         )
                     }
                 },
-                supportingText = { Text(text = uiState.finishMinuteError) },
+                supportingText = { Text(text = uiState.finishMinuteError.asString()) },
                 isError = uiState.showFinishMinuteError,
                 colors = outlinedTextFieldColors()
             )
@@ -231,7 +254,7 @@ fun ToDoInfoScreen(
             OutlinedTextField(
                 value = uiState.descriptionText,
                 onValueChange = { onToDoEvent(ToDoInfoEvent.ChangeDescription(it)) },
-                label = { Text("Описание") },
+                label = { Text(stringResource(R.string.description)) },
                 shape = RoundedCornerShape(16.dp),
                 supportingText = { Text(text = "") },
                 colors = outlinedTextFieldColors(),
@@ -252,7 +275,11 @@ fun ToDoInfoScreen(
                             containerColor = colorScheme.primary
                         )
                     ) {
-                        Text(text = if (uiState.currentToDoId == -1) "Добавить" else "Обновить")
+                        Text(
+                            text = if (uiState.currentToDoId == -1)
+                                stringResource(R.string.add_button)
+                            else stringResource(R.string.update_button)
+                        )
                     }
                 }
 
@@ -267,7 +294,7 @@ fun ToDoInfoScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Delete,
-                                contentDescription = "Удалить дело"
+                                contentDescription = stringResource(R.string.delete_to_do)
                             )
                         }
                     }
@@ -289,14 +316,14 @@ fun ToDoInfoStateDayPreview() {
                 startMinute = 0,
                 finishHour = 0,
                 finishMinute = 0,
-                nameText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                descriptionText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n" +
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                nameText = "Текст aaaa Текст aaaaaaaa Текст aaa aaaaaaaaaa",
+                descriptionText = "aaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaa\n" +
+                        "aa aaaaaa aaaaaa aaaaaaaaa aaaa  aaa aaaaaa aaaaaaaaaaaaaaa" +
+                        "aaaaaaaaaaaa aaaaaaaaaaaa aaaaaaaaaaa aaaa aaaaaa aaaaaa" +
+                        "aaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaaa aaaaaaa aaaaaaa" +
+                        "aaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaa aaaaaaaaaaaaaaaa" +
+                        "aaaaaaaaaa aaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaa" +
+                        "aaaaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaaaaaaa aaaaaaaaaa"
             ),
             {},
             {}

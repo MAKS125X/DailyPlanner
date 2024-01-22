@@ -33,18 +33,18 @@ class ToDoRepository(localDataSource: AppDatabase) {
         }
     }
 
-    @Throws(IllegalArgumentException::class)
+    @Throws(EmptyToDoNameException::class, InvalidToDoDateRangeException::class)
     suspend fun saveToDo(
         toDoLongView: ToDoLongView
     ) {
 
         if (toDoLongView.name.isEmpty()) {
-            throw EmptyToDoNameException("Дело должно иметь имя")
+            throw EmptyToDoNameException()
         }
         if (toDoLongView.hourFinish < toDoLongView.hourStart ||
             toDoLongView.hourFinish == toDoLongView.hourStart && toDoLongView.minuteFinish < toDoLongView.minuteStart
         ) {
-            throw InvalidToDoDateRangeException("Дело должно оканчиваться после начала")
+            throw InvalidToDoDateRangeException()
         }
 
         val toDo = ToDoLongMapper.toDto(toDoLongView)

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DailyPlaner</string>
+    <string name="add_to_do">"Добавьте новое дело: "</string>
+    <string name="close_content_description">Закрыть</string>
+    <string name="accept_button">Подтвердить</string>
+    <string name="cancel_button">Скрыть</string>
+    <string name="to_do_name">Название</string>
+    <string name="to_do_date">Дата</string>
+    <string name="change_date_button">Дата</string>
+    <string name="start_time">Время начала</string>
+    <string name="change_start_time">Время начала дела</string>
+    <string name="finish_time">Время конца</string>
+    <string name="change_finish_time">Время начала дела</string>
+    <string name="description">Описание</string>
+    <string name="add_button">Добавить</string>
+    <string name="update_button">Обновить</string>
+    <string name="delete_to_do">Удалить дело</string>
+    <string name="incorrect_data">Некорректные данные</string>
+    <string name="database_error">Ошибка добавления в базы данных</string>
+    <string name="to_do_exist">Данное дело уже удалено</string>
+    <string name="delete_to_do_title">Удалить данное дело?</string>
+    <string name="internal_error">Внутренняя ошибка, откройте дело снова</string>
+    <string name="delete_button">Удалить</string>
+    <string name="no_added_to_do">Вы ещё не добавили ни одного дела на эту дату :(</string>
+    <string name="to_do_must_have_name">Дело должно иметь имя</string>
+    <string name="to_do_should_finish_after_starting">Дело должно оканчиваться после начала</string>
+</resources>

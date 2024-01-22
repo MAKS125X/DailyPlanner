@@ -31,8 +31,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.dailyplaner.R
 import com.example.dailyplaner.data.models.to_do_short.TimeRange
 import com.example.dailyplaner.data.models.to_do_short.ToDoShortView
 import com.example.dailyplaner.presentation.ui.theme.DailyPlanerTheme
@@ -74,7 +76,7 @@ fun PlannerScreen(
 
                 } else {
                     if (uiState.toDoList.isEmpty()) {
-                        item { Text(text = "Вы ещё не добавили ни одного дела на эту дату :(") }
+                        item { Text(text = stringResource(R.string.no_added_to_do)) }
                     } else {
                         uiState.toDoList.forEach { map ->
                             item {
@@ -103,7 +105,7 @@ fun PlannerScreen(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary
         ) {
-            Icon(Icons.Outlined.Add, contentDescription = "Добавить дело")
+            Icon(Icons.Outlined.Add, contentDescription = stringResource(id = R.string.add_button))
         }
     }
 }
@@ -154,7 +156,12 @@ fun PlannerScreenDayPreview() {
             uiState = PlannerUiState(
                 System.currentTimeMillis(), mapOf(
                     TimeRange("12.00", "13.00") to listOf(
-                        ToDoShortView(1, "12.00", "12.00", "Сделать зарядку аааааааааааааааааааааааааааааааааааааааааааааааааааааааааа"),
+                        ToDoShortView(
+                            1,
+                            "12.00",
+                            "12.00",
+                            "Сделать зарядку аааааааааааааааааааааааааааааааааааааааааааааааааааааааааа"
+                        ),
                         ToDoShortView(2, "12.14", "12.16", "Сделать зарядку"),
                         ToDoShortView(3, "12.17", "12.18", "Сделать зарядку"),
                     )
