@@ -4,3 +4,5 @@ import androidx.compose.ui.unit.dp
 
 val verticalTextFieldSpacerHeight = 3.dp
 val toDoItemSpacerHeight = 6.dp
+val textFieldWidth = 280.dp
+val textFieldRoundedCorner = 16.dp

@@ -7,6 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.dailyplaner.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -17,19 +19,15 @@ fun DatePickerDialogImpl(
 ) {
     val state = rememberDatePickerState(initialTimeMillis)
 
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = { onConfirm(state.selectedDateMillis ?: initialTimeMillis) }) {
-                Text(text = "Подтвердить")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = { onDismiss() }) {
-                Text(text = "Отмена")
-            }
+    DatePickerDialog(onDismissRequest = onDismiss, confirmButton = {
+        TextButton(onClick = { onConfirm(state.selectedDateMillis ?: initialTimeMillis) }) {
+            Text(text = stringResource(id = R.string.accept_button))
         }
-    ) {
+    }, dismissButton = {
+        TextButton(onClick = { onDismiss() }) {
+            Text(text = stringResource(id = R.string.cancel_button))
+        }
+    }) {
         DatePicker(state = state)
     }
 }

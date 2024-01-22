@@ -40,6 +40,8 @@ import androidx.compose.ui.unit.dp
 import com.example.dailyplaner.R
 import com.example.dailyplaner.presentation.ui.theme.DailyPlanerTheme
 import com.example.dailyplaner.presentation.ui.theme.outlinedTextFieldColors
+import com.example.dailyplaner.presentation.ui.theme.textFieldRoundedCorner
+import com.example.dailyplaner.presentation.ui.theme.textFieldWidth
 import com.example.dailyplaner.presentation.ui.theme.verticalTextFieldSpacerHeight
 import com.example.dailyplaner.presentation.utils.formatTime
 import java.text.SimpleDateFormat
@@ -165,10 +167,10 @@ fun ToDoInfoScreen(
                 supportingText = { Text(text = uiState.nameTextError.asString()) },
                 maxLines = 2,
                 isError = uiState.showNameTextError,
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(textFieldRoundedCorner),
 
                 colors = outlinedTextFieldColors(),
-                modifier = Modifier.width(280.dp),
+                modifier = Modifier.width(textFieldWidth),
             )
             Spacer(modifier = Modifier.height(verticalTextFieldSpacerHeight))
             OutlinedTextField(
@@ -176,7 +178,7 @@ fun ToDoInfoScreen(
                 onValueChange = {},
                 label = { Text(stringResource(R.string.to_do_date)) },
                 readOnly = true,
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(textFieldRoundedCorner),
                 trailingIcon = {
                     IconButton(
                         onClick = { onToDoEvent(ToDoInfoEvent.OpenDatePicker) },
@@ -202,7 +204,7 @@ fun ToDoInfoScreen(
                 onValueChange = {},
                 label = { Text(stringResource(R.string.start_time)) },
                 readOnly = true,
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(textFieldRoundedCorner),
                 trailingIcon = {
                     IconButton(
                         onClick = { onToDoEvent(ToDoInfoEvent.OpenStartTimePicker) },
@@ -229,7 +231,7 @@ fun ToDoInfoScreen(
                 onValueChange = {},
                 label = { Text(stringResource(R.string.finish_time)) },
                 readOnly = true,
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(textFieldRoundedCorner),
                 trailingIcon = {
                     IconButton(
                         onClick = { onToDoEvent(ToDoInfoEvent.OpenFinishTimePicker) },
@@ -255,16 +257,16 @@ fun ToDoInfoScreen(
                 value = uiState.descriptionText,
                 onValueChange = { onToDoEvent(ToDoInfoEvent.ChangeDescription(it)) },
                 label = { Text(stringResource(R.string.description)) },
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(textFieldRoundedCorner),
                 supportingText = { Text(text = "") },
                 colors = outlinedTextFieldColors(),
-                modifier = Modifier.width(280.dp),
+                modifier = Modifier.width(textFieldWidth),
                 maxLines = 7
             )
             Spacer(modifier = Modifier.height(verticalTextFieldSpacerHeight))
             Row(
                 horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.width(280.dp)
+                modifier = Modifier.width(textFieldWidth)
             ) {
                 Row(modifier = Modifier.weight(0.25f)) { }
                 Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.Center) {
